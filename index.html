@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Тестовое задание: Фигуры</title>
+	</head>
+	<body>
+		<p align="center"><big>Полотно для создания параллелограмма</big></p>
+		
+		<canvas id="myCanvas" width="1400" height="500" align = "center"
+			style="background-color:#ccc; border: 2px solid #000000; margin:10px;">
+		</canvas>
+		
+		<div class = "infoPanelPoint">
+			<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td id="col1"><p class="textPoint"></p></td>
+					<td id="col2"><p class="textPoint"></p></td>
+					<td id="col3"><p class="textPoint"></p></td>
+					<td id="col4"><p class="textPoint"></p></td>
+					<td id="col5"><p class="textPoint"></p></td>
+				</tr>
+			</table>
+		</div>
+		
+		<p align="center">
+			<a href="index.html"><button style="width:200px;height:50px")><big>Reset</big></button></a>
+			<button id="about" style="width:200px;height:50px"><big>About</big></button>
+		</p>
+		
+		<script>
+			var canvas = document.getElementById("myCanvas"),
+				context = canvas.getContext("2d"),
+					w = canvas.width;
+						h = canvas.height;
+						
+			var pointA = { x:0, y:0 };
+			var pointB = { x:0, y:0 };
+			var pointC = { x:0, y:0 };
+			var pointD = { x:0, y:0 };
+			var pointCenter = { x:0, y:0 };
+			var diameter0 = { x:0, y:0 };
+			var diameter1 = { x:0, y:0 };
+			
+			canvas.addEventListener("click", function(event)
+			{
+				if(pointA.x ==0)
+				{
+					pointA.x = event.pageX - this.offsetLeft;
+					pointA.y = event.pageY - this.offsetTop;
+				}
+				else if(pointB.x ==0)
+				{
+					pointB.x = event.pageX - this.offsetLeft;
+					pointB.y = event.pageY - this.offsetTop;
+				}
+				else if(pointC.x ==0)
+				{
+					pointC.x = event.pageX - this.offsetLeft;
+					pointC.y = event.pageY - this.offsetTop;
+				}
+				if(pointA.x > 0 && pointB.x > 0 && pointC.x > 0)
+				{
+					var p0 = document.getElementById("pointA");
+					var p1 = document.getElementById("pointB");
+					var p2 = document.getElementById("pointC");
+					var p3 = document.getElementById("pointD");
+					var p4 = document.getElementById("pointCenter");
+					
+					var c1 = document.getElementById("col1");
+					var c2 = document.getElementById("col2");
+					var c3 = document.getElementById("col3");
+					var c4 = document.getElementById("col4");
+					var c5 = document.getElementById("col5");
+					
+					c1.className = "textPoint";
+					c2.className = "textPoint";
+					c3.className = "textPoint";
+					c4.className = "textPoint";
+					c5.className = "textPoint";
+					
+					p0.className = "dot";
+					p1.className = "dot";
+					p2.className = "dot";
+					p3.className = "dot";
+					p4.className = "dot";
+					
+					p0.style.left = (pointA.x + 12) + "px";
+					p0.style.top = (pointA.y + 58) + "px";
+					document.body.appendChild(p0);
+					p1.style.left = (pointB.x + 12) + "px";
+					p1.style.top = (pointB.y + 58) + "px";
+					document.body.appendChild(p1);
+					
+					p2.style.left = (pointC.x + 12) + "px";
+					p2.style.top = (pointC.y + 58) + "px";
+					document.body.appendChild(p2);
+					
+					pointCenter.x = (pointA.x + pointC.x) / 2;
+					pointCenter.y = (pointA.y + pointC.y) / 2;
+					p3.style.left = (pointCenter.x + 12) + "px";
+					p3.style.top = (pointCenter.y + 58) + "px"
+					document.body.appendChild(p3);
+					
+					pointD.x = (pointCenter.x * 2) - pointB.x;
+					pointD.y = (pointCenter.y * 2) - pointB.y;
+					p4.style.left = (pointD.x + 12) + "px";
+					p4.style.top = (pointD.y + 58) + "px";
+					
+					diameter0 = Math.abs((pointA.x - pointCenter.x) * -1);
+					diameter1 = Math.abs((pointB.x - pointCenter.x) * -1);
+					if(diameter1 > diameter0)
+					{
+						diameter0 = diameter1;
+					}
+					
+					context.beginPath();
+					context.moveTo(pointA.x, pointA.y);
+					context.lineTo(pointB.x, pointB.y);
+					context.lineTo(pointC.x, pointC.y);
+					context.lineTo(pointD.x, pointD.y);
+					context.closePath();
+					context.strokeStyle = "blue";
+					context.stroke();
+					
+					context.beginPath();
+					context.moveTo(pointA.x, pointA.y);
+					context.lineTo(pointC.x, pointC.y);
+					context.closePath();				
+					context.strokeStyle = "blue";
+					context.stroke();
+					
+					context.beginPath();
+					context.moveTo(pointB.x, pointB.y);
+					context.lineTo(pointD.x, pointD.y);
+					context.closePath();				
+					context.strokeStyle = "blue";
+					context.stroke();
+					
+					context.beginPath();
+					context.arc(pointCenter.x, pointCenter.y, diameter0, 0, Math.PI*2, false);
+					context.closePath();
+					context.strokeStyle = "yellow"
+					context.stroke();
+					
+					c1.innerHTML = "A.X:" + pointA.x + " A.Y:" + pointA.y;
+					c2.innerHTML = "B.X:" + pointB.x + " B.Y:" + pointB.y;
+					c3.innerHTML = "C.X:" + pointC.x + " C.Y:" + pointC.y;
+					c4.innerHTML = "D.X:" + pointD.x + " D.Y:" + pointD.y;
+					c5.innerHTML = "Сircle diameter:" + diameter0;
+				}
+			});
+			
+			function kek()
+			{
+					p0.style.left = (pointA.x) + "px";
+					p0.style.top = (pointA.y) + "px";
+					document.body.appendChild(p0);
+			}
+		
+			about.onclick = function()
+			{
+				alert("Программа для рисования параллелограмма и на его базе круга.\nИнструкция: Просто поставьте три точки на панели.\nСоздатель программы: Артём Молотковский.\nДата:09.06.2018");
+			}
+			
+		</script>		
+		
+		<div id ='pointA'></div>
+		<div id ='pointB'></div>
+		<div id ='pointC'></div>
+		<div id ='pointD'></div>
+		<div id ='pointCenter'></div>
+		
+		<style>
+			.textPoint
+			{
+				font-size : 29px;
+			}
+			
+			.infoPanelPoint
+			{
+				width : 90%;
+				background : #B1CFCF;
+				height : 100px;
+				margin-left : 5%;
+				border : 5px solid rgba(0,0,0,.1);
+			}
+			
+			TABLE
+			{
+				width: 20%;
+			}
+			TD
+			{
+				vertical-align: top;
+			}
+			#col1
+			{
+				width: 70px;
+			}
+			#col2
+			{
+				width: 100px;
+			}
+			#col3
+			{
+				width: 100px;
+			}
+			#col4
+			{
+				width: 100px;
+			}
+			#col5
+			{
+				width: 100px;
+			}
+			#col1, #col2, #col3, #col4, #col5
+			{
+				padding: 5px;
+			}
+			
+			body
+			{
+				height: 200px;
+				background: beige;
+			}
+			.dot
+			{
+				height: 11px; width: 11px;
+				border-radius: 11px; /* скруглённые углы */
+				background: red;
+				position: absolute;
+			}
+		</style>
+	</body>
+</html>
